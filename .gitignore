@@ -1,3 +1,6 @@
+usp_all/
+
+.DS_Store
 # Prerequisites
 *.d
 
@@ -50,3 +53,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+SystemProgramming/usp_all/.DS_Store
