@@ -1,46 +1,74 @@
 import os
+from check import *
 
 def login():
     os.system("clear")
-    id = input("아이디 : ")
-    pw = input("패스워드 : ")
-    
-    directory = "./Users/"+id
-    print("directory존재?")
-    print(os.path.isdir(directory))
-    if os.path.isdir(directory) == True:
+    id = input("ID : ")
+
+    if existID(id):
+        directory = "./Users/"+id
         f = open(directory+"/password.txt", 'r')
         userPW = f.readline()
-        if userPW == pw:
-            os.system("clear")
-            print(f"로그인에 성공했습니다. 반갑습니다 {id}님!")
-            return True, id
-        else : 
-            os.system('clear')
-            print("로그인에 실패했습니다. 다시 시도해주세요.")
-            return False, None
-    else:
-        os.system('clear')
-        print("잘못된 정보입니다. 다시 시도해주세요.")
-        return False, None
 
+        pw = input("패스워드 : ")
+        if userPW == pw:
+            print(f"로그인에 성공했습니다.")
+            return id
+        else : 
+            print("비밀번호가 다릅니다. 다시 시도해주세요.")
+            return None
+    else:
+        return None
 
 def signUp():
-    os.system("clear")
-    id = input("사용하실 아이디를 입력해주세요 ")
-    directory = "./Users/"+id
-
-    while os.path.isdir(directory):
-        print("이미 존재하는 아이디입니다.")
+    # ID 입력
+    while True:
         id = input("사용하실 아이디를 입력해주세요 ")
-        directory = "./Users/"+id
+        if checkID(id):
+            break
 
-    pw = input("사용하실 비밀번호를 입력해주세요 ")
-    
+    # user directory 생성
+    directory = "./Users/"+id
     os.makedirs(directory)
-    userInfo = directory+"/password.txt"
+    os.makedirs(directory+"/diary") # 추가
+    os.makedirs(directory+"/food") # 추가
 
-    f = open(userInfo, 'w')
+    # PW 입력
+    while True:
+        pw = input("사용하실 비밀번호를 입력해주세요 ")
+        if checkPW(pw):
+            break
+    
+    # password.txt 생성
+    f = open(directory+"/password.txt", 'w')
     f.write(pw)
+    f.close()
+
+    while True:
+        sex = input("성별 : ")
+        if checkSex(sex):
+            break
+
+    f = open(directory+"/info.txt", "w")
+    f.write(converSex(sex)+"\n")
+
+    while True:
+        age = input("나이 : ")
+        if checkAge(age):
+            break
+    f.write(age+"\n")
+
+    while True:
+        height = input("키 : ")
+        if checkHeight(height):
+            break
+    f.write(height+"\n")
+
+    while True:
+        weight = input("몸무게 : ")
+        if checkWeight(weight):
+            break
+    f.write(weight)
+
     f.close()
     
