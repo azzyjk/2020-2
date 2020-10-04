@@ -1,5 +1,6 @@
 usp_all/
-
+*.txt
+*.pyc
 .DS_Store
 # Prerequisites
 *.d
@@ -54,3 +55,4 @@ Module.symvers
 Mkfile.old
 dkms.conf
 SystemProgramming/usp_all/.DS_Store
+.vscode/launch.json
