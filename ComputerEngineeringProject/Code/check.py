@@ -97,8 +97,8 @@ def converSex(sex):
         return "여자"
 
 def checkAge(age):
-    res = re.search('[0-9]', age)
-    if res == None:
+    res = justNumber(age)
+    if res == False:
         print("나이는 숫자만 입력 가능합니다. 다시 입력해주세요.") # 추가
         return False
     else:
@@ -109,8 +109,8 @@ def checkAge(age):
             return True
 
 def checkHeight(height):
-    res = re.search('[0-9]', height)
-    if res == None:
+    res = justNumber(height)
+    if res == False:
         print("키는 숫자만 입력 가능합니다. 다시 입력해주세요.") # 추가
         return False
     else:
@@ -121,8 +121,8 @@ def checkHeight(height):
             return True
 
 def checkWeight(weight):
-    res = re.search('[0-9]', weight)
-    if res == None:
+    res = justNumber(weight)
+    if res == False:
         print("몸무게는 숫자만 입력 가능합니다. 다시 입력해주세요.") # 추가
         return False
     else:
@@ -146,8 +146,15 @@ def existFile(filename):
     else:
         return False
 
+def justNumber(num):
+    res = re.search('[^0-9]', num)
+    if res == None and len(num)>0:
+        return True
+    else:
+        return False
+
 def checkYYYYMM(YYYYMM):
-    res = re.search('[^0-9]', YYYYMM)
+    res = justNumber(YYYYMM)
     today = int(date.today().strftime('%Y%m'))
     year= YYYYMM[:4]
     month = YYYYMM[4:]
@@ -157,7 +164,7 @@ def checkYYYYMM(YYYYMM):
     elif len(YYYYMM)>6:
         print("입력된 인자의 수가 많습니다. 다시 입력해 주세요.")
         return False
-    elif res != None:
+    elif res == False:
         print("숫자이외의 문자는 입력할 수 없습니다. 다시 입력해주세요.")
         return False
     elif int(YYYYMM) > today:
@@ -173,16 +180,25 @@ def checkYYYYMM(YYYYMM):
         return True
 
 def checkDD(YYYYMM, DD):
-    res = re.search('[^0-9]', DD)
-    year= int(YYYYMM[:4])
-    month = int(YYYYMM[4:])
-    if res!= None:
+    res = justNumber(DD)
+    checkValid = None
+    if res== False:
         print("숫자이외의 문자를 입력할 수 없습니다. 다시 입력해주세요.") # 수정
         return False
     else:
-        try:
-            checkDate = datetime(year, month, int(DD))
+        checkValid = checkYYYYMMDD(YYYYMM+DD)
+        if checkValid == True:
             return True
-        except:
-            print("해당 일은 존재하지 않습니다. 날짜를 확인 후 다시 입력해주세요.")
+        else:
             return False
+
+def checkYYYYMMDD(YYYYMMDD):
+    year = int(YYYYMMDD[:4])
+    month = int(YYYYMMDD[4:6])
+    day = int(YYYYMMDD[6:])
+    try:
+        checkDate = datetime(year, month, day)
+        return True
+    except:
+        
+        return False
