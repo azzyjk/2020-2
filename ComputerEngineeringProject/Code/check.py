@@ -193,12 +193,16 @@ def checkDD(YYYYMM, DD):
             return False
 
 def checkYYYYMMDD(YYYYMMDD):
-    year = int(YYYYMMDD[:4])
-    month = int(YYYYMMDD[4:6])
-    day = int(YYYYMMDD[6:])
-    try:
-        checkDate = datetime(year, month, day)
-        return True
-    except:
+    res = justNumber(YYYYMMDD)
+    if res == False:
+        print("연도는 숫자만 입력 가능합니다.")
+    else:
+        year = int(YYYYMMDD[:4])
+        month = int(YYYYMMDD[4:6])
+        day = int(YYYYMMDD[6:])
+        try:
+            checkDate = datetime(year, month, day)
+            return True
+        except:
+            return False
         
-        return False
