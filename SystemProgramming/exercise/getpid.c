@@ -4,10 +4,8 @@
 
 int main(){
     fork();
-    pid_t parentPid = getppid();
-    pid_t mypid = getpid();
     int stat_loc;
     wait(&stat_loc);
-    printf("parent pid : %ld, my pid : %ld\n", (long)parentPid, (long)mypid);
+    printf("parent pid : %ld, my pid : %ld, uid : %ld, euid : %ld, gid : %ld, egid : %ld\n", (long)getppid(), (long)getpid(), (long)getuid(), (long)geteuid(), (long)getgid(), (long)getegid());
     return 0;
 }
