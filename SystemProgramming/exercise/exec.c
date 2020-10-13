@@ -43,6 +43,12 @@ int main(int argc, char** argv){
 
     // printf("Hello\n");
     // execve("test", av, env); // (파일명, 실행할 명령어 인자가 들어있는 char *const 배열, 환경변수 포인터 배열)
+    // for(int i=0; i<argc; i++){
+    //     printf("%s\n", argv[i]);
+    // }
     execvp(argv[1], &argv[1]); // argv[1] : "ls", &argv[1] : "ls"부터 시작하는 배열
+    // *.c 와 같은 wild card 문자를 사용하면 *.c가아닌 자동으로 해당 directory의 파일들로 변경되어서 전달된다.
+    // 단 "ls -l *.c"를 했을 경우 문자열 그대로 전달해준다.
+
     return 0;
 }
