@@ -8,26 +8,35 @@
 
 int main(){
     int pipefd[2];
-    char buf[1000];
+    char buf[MAXLEN];
     char* str;
     pid_t childPid;
+    int randNum, res=0;
 
     pipe(pipefd);
 
-    childPid = fork();
+    for(int i=0; i<2; i++){
+        childPid = fork();
+        if(childPid==0) break;
+    }
 
     if(childPid){
         while(wait(NULL)!=-1){
             read(pipefd[0], buf, MAXLEN);
+            printf("child end\n");
+            res += atoi(buf);
         }
+        printf("result : %d\n", res);
     }
     else{
-        sleep(10);
-        str = "Hello";
-        write(pipefd[1], str, strlen(str));
+        sleep(2);
+        randNum = rand()%10;
+        snprintf(buf, MAXLEN, "%d", randNum);
+        write(pipefd[1], buf, MAXLEN);
+        printf("[%ld] I mad number : %d\n", (long)getpid, randNum);
         exit(0);
     }
     
-    printf("%s\n", buf);
+    
     return 0;
 }
